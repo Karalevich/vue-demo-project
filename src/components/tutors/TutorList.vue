@@ -6,7 +6,7 @@
     <section>
       <div class="controls">
         <custom-button mode="outline">Refresh</custom-button>
-        <custom-button to="/register">Register as a Tutor</custom-button>
+        <custom-button link to="/register">Register as a Tutor</custom-button>
       </div>
       <ul v-if="hasTutor">
         <tutor-item v-for="tutor in tutors" :key="tutor.id" :id="tutor.id" :first-name="tutor.firstName"

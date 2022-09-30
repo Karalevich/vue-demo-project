@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import TutorList from "@/components/tutors/TutorList";
 import Requests from "@/components/requests/Requests";
 import TutorDetail from "@/components/tutors/TutorDetail";
+import Register from "@/components/register/Register";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -13,7 +14,7 @@ const router = createRouter({
                 {path: 'contact', component: null}
             ]
         },
-        {path: '/register', component: null},
+        {path: '/register', component: Register},
         {path: '/requests', component: Requests},
         {path: '/:notFound(.*)', component: null},
     ]
