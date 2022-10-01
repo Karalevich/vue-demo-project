@@ -74,7 +74,7 @@ export default {
         return
       }
       const newTutor = {
-        id: new Date().toISOString(),
+        id: this.$store.getters.getUserId,
         firstName: this.firstName.val,
         lastName: this.lastName.val,
         description: this.description.val,

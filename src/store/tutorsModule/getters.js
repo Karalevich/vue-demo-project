@@ -4,5 +4,5 @@ export default {
     },
     hasTutors(state) {
         return state.tutors && state.tutors.length > 0
-    }
+    },
 }

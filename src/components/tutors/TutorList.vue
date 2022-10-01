@@ -25,29 +25,24 @@ import TutorFilter from "@/components/tutors/TutorFilter";
 
 export default {
   components: {TutorFilter, CustomButton, CustomCard, TutorItem},
-  data() {
-    return {
-      tutors: null
-    }
-  },
   mounted() {
     this.tutors = this.$store.getters['tutors/tutors']
+    this.$store.dispatch('tutors/setTutorAction')
   },
   computed: {
     hasTutor() {
       return this.$store.getters['tutors/hasTutors']
+    },
+    tutors() {
+      return this.$store.getters['tutors/tutors']
     }
   },
   methods: {
     updateTutors(filters) {
-      this.tutors = this.$store.getters['tutors/tutors'].filter(tutor => {
-        for(const filter in filters) {
-          if(filters[filter] && tutor.areas.includes(filter)){
-            return tutor
-          }
-        }
+      this.$store.dispatch({
+        type: "tutors/updateTutorsAction",
+        filters
       })
-
     }
   }
 }
