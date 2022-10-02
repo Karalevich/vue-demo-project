@@ -6,7 +6,10 @@ export default {
     namespaced: true,
     state() {
         return{
-            tutors: []
+            tutors: [],
+            isLoading: false,
+            isError: false,
+            errorMessage: ''
         }
     },
     getters,

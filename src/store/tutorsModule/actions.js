@@ -20,20 +20,23 @@ export default {
         const tutors = await context.dispatch('getTutors')
         context.commit('updateTutors', {filters, tutors})
     },
-    async getTutors() {
-        const response = await fetch('https://vue-demo-project-9ba31-default-rtdb.firebaseio.com/tutors.json')
-
-        const tutors = await response.json()
-        if (!tutors.ok) {
-            console.warn(tutors)
-        }
-
+    async getTutors(context) {
+        context.commit('updateLoading', true)
         const arrTutors = []
+        try {
+            const response = await fetch('https://vue-demo-project-9ba31-default-rtdb.firebaseio.com/tutors.json')
 
-        for (const tutorId in tutors) {
-            arrTutors.push({
-                ...tutors[tutorId],
-            })
+            const tutors = await response.json()
+            for (const tutorId in tutors) {
+                arrTutors.push({
+                    ...tutors[tutorId],
+                })
+            }
+        }catch (error){
+            context.commit('updateErrorMessage', error)
+            context.commit('updateError', true)
+        }finally {
+            context.commit('updateLoading', false)
         }
         return arrTutors
     }

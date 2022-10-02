@@ -1,14 +1,17 @@
 <template>
   <custom-card>
+    <custom-dialog :show="isError" @close="closeModal" title="An error occurred!">
+      <p>{{ errorMessage }}</p>
+    </custom-dialog>
     <section>
       <tutor-filter @update-filter="updateTutors"/>
     </section>
     <section>
       <div class="controls">
-        <custom-button mode="outline">Refresh</custom-button>
         <custom-button link to="/register">Register as a Tutor</custom-button>
       </div>
-      <ul v-if="hasTutor">
+      <custom-spinner v-if="isLoading" />
+      <ul v-else-if="hasTutor">
         <tutor-item v-for="tutor in tutors" :key="tutor.id" :id="tutor.id" :first-name="tutor.firstName"
                     :last-name="tutor.lastName" :areas="tutor.areas" :hourly-rate="tutor.hourlyRate"/>
       </ul>
@@ -22,9 +25,11 @@ import TutorItem from "@/components/tutors/TutorItem";
 import CustomCard from "@/components/custom/CustomCard";
 import CustomButton from "@/components/custom/CustomButton";
 import TutorFilter from "@/components/tutors/TutorFilter";
+import CustomSpinner from "@/components/custom/CustomSpinner";
+import CustomDialog from "@/components/custom/CustomDialog";
 
 export default {
-  components: {TutorFilter, CustomButton, CustomCard, TutorItem},
+  components: {CustomDialog, CustomSpinner, TutorFilter, CustomButton, CustomCard, TutorItem},
   mounted() {
     this.tutors = this.$store.getters['tutors/tutors']
     this.$store.dispatch('tutors/setTutorAction')
@@ -35,6 +40,15 @@ export default {
     },
     tutors() {
       return this.$store.getters['tutors/tutors']
+    },
+    isLoading() {
+      return this.$store.getters['tutors/isLoading']
+    },
+    isError() {
+      return this.$store.getters['tutors/isError']
+    },
+    errorMessage() {
+      return this.$store.getters['tutors/errorMessage']
     }
   },
   methods: {
@@ -43,6 +57,9 @@ export default {
         type: "tutors/updateTutorsAction",
         filters
       })
+    },
+    closeModal() {
+      this.$store.commit('tutors/updateError', false)
     }
   }
 }

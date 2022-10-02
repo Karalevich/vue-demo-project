@@ -6,7 +6,10 @@ export default {
     namespaced: true,
     state() {
         return{
-            requests: []
+            requests: [],
+            isLoading: false,
+            isError: false,
+            errorMessage: ''
         }
     },
     getters,

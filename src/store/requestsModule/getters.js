@@ -1,9 +1,17 @@
 export default {
     hasRequests(state) {
-        return state.requests.length > 0
+        return state.requests.length > 0 && !state.isLoading
     },
-     requests(state, getters, rootState, rootGetters) {
-        const tutorId = rootGetters.getUserId
-        return state.requests.filter(request => request.tutorId === tutorId)
-     }
+    requests(state) {
+        return state.requests
+    },
+    isLoading(state){
+        return state.isLoading
+    },
+    isError(state){
+        return state.isError
+    },
+    errorMessage(state){
+        return state.errorMessage
+    }
 }

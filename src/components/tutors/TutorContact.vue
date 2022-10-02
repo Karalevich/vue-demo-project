@@ -41,10 +41,8 @@ export default {
       }
 
       const newRequest = {
-        id: new Date().toISOString(),
         email: this.email,
         message: this.message,
-        tutorId: this.$route.params.id
       }
       this.$store.dispatch({
             type: "requests/addRequestsAction",
