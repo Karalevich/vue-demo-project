@@ -22,5 +22,14 @@ export default {
     },
     updateErrorMessage(state, message){
         state.errorMessage = message
+    },
+    setLastLoad(state) {
+        state.lastLoad = new Date().getTime()
+    },
+    updateFilter(state, { filterId, filterStatus }) {
+        state.filter = {
+            ...state.filter,
+            [filterId]: filterStatus
+        }
     }
 }

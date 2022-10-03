@@ -13,10 +13,15 @@ export default {
         context.commit('addTutor', newTutor)
     },
     async setTutorAction(context) {
-        const tutors = await context.dispatch('getTutors')
-        context.commit('setTutors', tutors)
+        const lastLoad = context.state.lastLoad
+        const currentTime = new Date().getTime()
+        if((currentTime - lastLoad) / 1000 < 10){
+            return
+        }
+        await context.dispatch('updateTutorsAction')
     },
-    async updateTutorsAction(context, {filters}) {
+    async updateTutorsAction(context) {
+        const filters = context.getters['filter']
         const tutors = await context.dispatch('getTutors')
         context.commit('updateTutors', {filters, tutors})
     },
@@ -37,6 +42,7 @@ export default {
             context.commit('updateError', true)
         }finally {
             context.commit('updateLoading', false)
+            context.commit('setLastLoad')
         }
         return arrTutors
     }

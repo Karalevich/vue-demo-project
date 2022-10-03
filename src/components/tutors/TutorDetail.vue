@@ -1,24 +1,26 @@
 <template>
   <section>
-    <custom-card>
-      <h3>{{ fullName }}</h3>
-      <h4>${{ hourlyRate }}/hour</h4>
-    </custom-card>
-  </section>
-  <section>
-    <custom-card>
-      <header>
-        <h2>Interested? Reach out now!</h2>
-        <custom-button link :to="contactLink">Contact</custom-button>
-      </header>
-      <router-view></router-view>
-    </custom-card>
-  </section>
-  <section>
-    <custom-card>
-      <custom-badge v-for="area in areas" :key="area" class="area" :type="area" :title="area"/>
-      <p>{{ description }}</p>
-    </custom-card>
+    <article>
+      <custom-card>
+        <h3>{{ fullName }}</h3>
+        <h4>${{ hourlyRate }}/hour</h4>
+      </custom-card>
+    </article>
+    <article>
+      <custom-card>
+        <header>
+          <h2>Interested? Reach out now!</h2>
+          <custom-button link :to="contactLink">Contact</custom-button>
+        </header>
+        <router-view></router-view>
+      </custom-card>
+    </article>
+    <article>
+      <custom-card>
+        <custom-badge v-for="area in areas" :key="area" class="area" :type="area" :title="area"/>
+        <p>{{ description }}</p>
+      </custom-card>
+    </article>
   </section>
 </template>
 

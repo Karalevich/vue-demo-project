@@ -4,7 +4,7 @@
       <p>{{ errorMessage }}</p>
     </custom-dialog>
     <section>
-      <tutor-filter @update-filter="updateTutors"/>
+      <tutor-filter />
     </section>
     <section>
       <div class="controls">
@@ -52,12 +52,6 @@ export default {
     }
   },
   methods: {
-    updateTutors(filters) {
-      this.$store.dispatch({
-        type: "tutors/updateTutorsAction",
-        filters
-      })
-    },
     closeModal() {
       this.$store.commit('tutors/updateError', false)
     }

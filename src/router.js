@@ -4,6 +4,7 @@ import Requests from "@/components/requests/Requests";
 import TutorDetail from "@/components/tutors/TutorDetail";
 import Register from "@/components/register/Register";
 import TutorContact from "@/components/tutors/TutorContact";
+import NotFound from "@/components/notFound/notFound";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -17,7 +18,7 @@ const router = createRouter({
         },
         {path: '/register', component: Register},
         {path: '/requests', component: Requests},
-        {path: '/:notFound(.*)', component: null},
+        {path: '/:notFound(.*)', component: NotFound},
     ]
 })
 

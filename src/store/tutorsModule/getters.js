@@ -13,5 +13,8 @@ export default {
     },
     errorMessage(state){
         return state.errorMessage
+    },
+    filter(state) {
+        return state.filter
     }
 }

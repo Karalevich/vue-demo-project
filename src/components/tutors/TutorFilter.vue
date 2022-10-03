@@ -22,28 +22,23 @@ import CustomCard from "@/components/custom/CustomCard";
 
 export default {
   name: 'TutorFilter',
-  emits: ['update-filter'],
   components: {CustomCard},
-  data() {
-    return {
-      filter: {
-        frontend: true,
-        backend: true,
-        career: true
-      }
-    }
-  },
   methods: {
     updateFilter(event) {
       const checkboxId = event.target.id
       const checkboxStatus = event.target.checked
 
-      const newFilter = {
-        ...this.filter,
-        [checkboxId]: checkboxStatus
-      }
-      this.filter = newFilter
-      this.$emit('update-filter', newFilter)
+      this.$store.commit('tutors/updateFilter',
+          {
+            filterId: checkboxId,
+            filterStatus: checkboxStatus
+          })
+      this.$store.dispatch('tutors/updateTutorsAction')
+    },
+  },
+  computed: {
+    filter() {
+      return this.$store.getters['tutors/filter']
     }
   }
 }

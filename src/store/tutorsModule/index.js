@@ -9,7 +9,13 @@ export default {
             tutors: [],
             isLoading: false,
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            lastLoad: null,
+            filter: {
+                frontend: true,
+                backend: true,
+                career: true
+            }
         }
     },
     getters,

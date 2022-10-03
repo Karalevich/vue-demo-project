@@ -1,20 +1,22 @@
 <template>
-  <custom-dialog :show="isError" @close="closeModal" title="An error occurred!">
-    <p>{{ errorMessage }}</p>
-  </custom-dialog>
   <section>
-    <custom-card>
-      <header>
-        <h2>Here you see requests</h2>
-      </header>
-      <custom-spinner v-if="isLoading"/>
-      <ul v-else-if="hasRequests">
-        <request-item v-for="request in requests" :key="request.id" :email="request.email" :message="request.message"/>
-      </ul>
-      <h3 v-else>You have received any requests yet!</h3>
-    </custom-card>
+    <custom-dialog :show="isError" @close="closeModal" title="An error occurred!">
+      <p>{{ errorMessage }}</p>
+    </custom-dialog>
+    <article>
+      <custom-card>
+        <header>
+          <h2>Here you see requests</h2>
+        </header>
+        <custom-spinner v-if="isLoading"/>
+        <ul v-else-if="hasRequests">
+          <request-item v-for="request in requests" :key="request.id" :email="request.email"
+                        :message="request.message"/>
+        </ul>
+        <h3 v-else>You have received any requests yet!</h3>
+      </custom-card>
+    </article>
   </section>
-
 </template>
 
 <script>
