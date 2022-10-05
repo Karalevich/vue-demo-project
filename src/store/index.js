@@ -1,22 +1,16 @@
 import {createStore} from "vuex";
 import tutorsModule from "@/store/tutorsModule";
 import requestsModule from "@/store/requestsModule";
+import authModule from "@/store/authModule";
 
 const store = createStore({
     modules: {
         tutors: tutorsModule,
-        requests: requestsModule
+        requests: requestsModule,
+        auth: authModule
     },
-    state() {
-        return {
-            userId: 'testId'
-        }
-    },
-    getters: {
-        getUserId(state){
-            return state.userId
-        }
-    }
 })
+
+window.state = store.state
 
 export default store

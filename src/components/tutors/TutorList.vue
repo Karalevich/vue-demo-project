@@ -8,7 +8,8 @@
     </section>
     <section>
       <div class="controls">
-        <custom-button link to="/register">Register as a Tutor</custom-button>
+        <custom-button v-if="isAuth" link to="/register">Register as a Tutor</custom-button>
+        <custom-button v-if="isSignIn" link to="/auth">Login</custom-button>
       </div>
       <custom-spinner v-if="isLoading" />
       <ul v-else-if="hasTutor">
@@ -30,7 +31,7 @@ import CustomDialog from "@/components/custom/CustomDialog";
 
 export default {
   components: {CustomDialog, CustomSpinner, TutorFilter, CustomButton, CustomCard, TutorItem},
-  mounted() {
+  created() {
     this.tutors = this.$store.getters['tutors/tutors']
     this.$store.dispatch('tutors/setTutorAction')
   },
@@ -49,12 +50,18 @@ export default {
     },
     errorMessage() {
       return this.$store.getters['tutors/errorMessage']
+    },
+    isAuth(){
+      return !this.$store.getters['tutors/isTutor'] && this.$store.getters['auth/isSignIn']
+    },
+    isSignIn(){
+      return !this.$store.getters['auth/isSignIn']
     }
   },
   methods: {
     closeModal() {
       this.$store.commit('tutors/updateError', false)
-    }
+    },
   }
 }
 </script>

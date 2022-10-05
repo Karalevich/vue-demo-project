@@ -16,5 +16,10 @@ export default {
     },
     filter(state) {
         return state.filter
-    }
+    },
+    isTutor(state, getters, rootState) {
+        const tutors = state.tutors;
+        const userId = rootState.auth.userId;
+        return tutors.some(tutor => tutor.id === userId);
+    },
 }

@@ -1,21 +1,32 @@
 export default {
     async addTutorAction(context, {newTutor}) {
-        const userId = context.rootGetters.getUserId
-        const response = await fetch(`https://vue-demo-project-9ba31-default-rtdb.firebaseio.com/tutors/${userId}.json`,
-            {
-                method: 'PUT',
-                body: JSON.stringify(newTutor)
-            })
+        context.commit('updateLoading', true)
+        const userId = context.rootState.auth.userId
+        const idToken = context.rootState.auth.idToken
+        try {
+            const response = await fetch(
+                `https://vue-demo-project-9ba31-default-rtdb.firebaseio.com/tutors/${userId}.json?auth=${idToken}`,
+                {
+                    method: 'PUT',
+                    body: JSON.stringify(newTutor)
+                })
 
-        if (!response.ok) {
-            console.warn(response)
+            if (!response.ok) {
+                throw new Error(`${response.statusText}`)
+            }
+            context.commit('addTutor', newTutor)
+        } catch (error) {
+            context.commit('updateErrorMessage', error)
+            context.commit('updateError', true)
+        } finally {
+            context.commit('updateLoading', false)
+            context.commit('setLastLoad')
         }
-        context.commit('addTutor', newTutor)
     },
     async setTutorAction(context) {
         const lastLoad = context.state.lastLoad
         const currentTime = new Date().getTime()
-        if((currentTime - lastLoad) / 1000 < 10){
+        if ((currentTime - lastLoad) / 1000 < 10) {
             return
         }
         await context.dispatch('updateTutorsAction')
@@ -31,16 +42,21 @@ export default {
         try {
             const response = await fetch('https://vue-demo-project-9ba31-default-rtdb.firebaseio.com/tutors.json')
 
+            if (!response.ok) {
+                throw new Error(`${response.statusText}`)
+            }
+
             const tutors = await response.json()
             for (const tutorId in tutors) {
                 arrTutors.push({
                     ...tutors[tutorId],
+                    id: tutorId
                 })
             }
-        }catch (error){
+        } catch (error) {
             context.commit('updateErrorMessage', error)
             context.commit('updateError', true)
-        }finally {
+        } finally {
             context.commit('updateLoading', false)
             context.commit('setLastLoad')
         }
