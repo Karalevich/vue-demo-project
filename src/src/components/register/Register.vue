@@ -1,6 +1,6 @@
 <template>
   <custom-card>
-    <h3>Fill in the inputs to register</h3>
+    <h3>Fill in the inputs to register!</h3>
     <tutor-form></tutor-form>
   </custom-card>
 </template>
