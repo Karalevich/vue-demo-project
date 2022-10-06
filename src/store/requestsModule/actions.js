@@ -1,6 +1,6 @@
 export default {
     async addRequestsAction(context, {newRequest}) {
-        const userId = context.rootGetters.auth.userId
+        const userId = context.rootState.auth.userId
         const response = await fetch(`https://vue-demo-project-9ba31-default-rtdb.firebaseio.com/requests/${userId}.json`,
             {
                 method: 'POST',

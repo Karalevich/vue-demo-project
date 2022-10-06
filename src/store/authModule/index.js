@@ -8,7 +8,7 @@ export default {
         return {
             userId: null,
             idToken: null,
-            expiresIn: null,
+            expiresDate: null,
             isLoading: false,
             isError: false,
             errorMessage: ''

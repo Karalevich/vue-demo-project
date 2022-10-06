@@ -2,16 +2,20 @@
   <custom-header></custom-header>
   <router-view v-slot="slotProps">
     <transition name="route" mode="out-in">
-      <component :is="slotProps.Component" />
+      <component :is="slotProps.Component"/>
     </transition>
   </router-view>
 </template>
 
 <script>
 import CustomHeader from "@/components/custom/CustomHeader";
+
 export default {
   name: 'App',
-  components: {CustomHeader}
+  components: {CustomHeader},
+  created() {
+    this.$store.dispatch('auth/checkExistUser', 'logIn')
+  }
 }
 </script>
 

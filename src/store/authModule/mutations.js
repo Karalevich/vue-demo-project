@@ -2,7 +2,7 @@ export default {
     setUser(state, userData){
         state.userId = userData.localId
         state.idToken = userData.idToken
-        state.expiresIn = userData.expiresIn
+        state.expiresDate = userData.expiresDate
     },
     updateLoading(state, value){
         state.isLoading = value
@@ -12,5 +12,10 @@ export default {
     },
     updateErrorMessage(state, message){
         state.errorMessage = message
+    },
+    logOut(state){
+        state.userId = null
+        state.idToken = null
+        state.expiresDate = null
     }
 }

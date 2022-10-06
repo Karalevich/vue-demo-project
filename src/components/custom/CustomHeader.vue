@@ -11,13 +11,33 @@
         <li>
           <router-link to="/requests">Requests</router-link>
         </li>
+        <li v-if="!isSignIn">
+          <router-link to="/auth">Login</router-link>
+        </li>
+        <li v-if="isSignIn">
+          <custom-button @click="logout">Logout</custom-button>
+        </li>
       </ul>
     </nav>
   </header>
 </template>
 
 <script>
-export default {}
+import CustomButton from "@/components/custom/CustomButton";
+export default {
+  name: 'CustomHeader',
+  components: {CustomButton},
+  methods: {
+    logout() {
+      this.$store.dispatch('auth/logOut')
+    }
+  },
+  computed: {
+    isSignIn(){
+      return this.$store.getters['auth/isSignIn']
+    }
+  }
+}
 </script>
 
 <style scoped>

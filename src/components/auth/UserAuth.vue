@@ -69,6 +69,9 @@ export default {
 
       this.email = ''
       this.password = ''
+      const redirectPath =  this.$route.query.redirect || 'tutors'
+
+      this.$router.replace('/' + redirectPath)
     },
     cleanError() {
       this.isValidForm = true
