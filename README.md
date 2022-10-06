@@ -1,4 +1,7 @@
 # vue-study-project
+#### Simple project for studying vue and Firebase
+Actions: https://github.com/AndreyKorolevich/vue-demo-project/actions
+Deploy: https://vue-demo-project-9ba31.web.app
 
 ## Project setup
 ```
