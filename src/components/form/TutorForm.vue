@@ -1,120 +1,124 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div class="form-control" :class="{invalid: !firstName.isValid}" >
-      <label for="firstname">Firstname</label>
-      <input type="text" id="firstname" v-model.trim="firstName.val" @input="clearValid('firstName')"/>
+  <form @submit.prevent='submitForm'>
+    <div class='form-control' :class='{invalid: !firstName.isValid}'>
+      <label for='firstname'>Firstname</label>
+      <input type='text' id='firstname' v-model.trim='firstName.val' @input="clearValid(firstName)" />
     </div>
-    <div class="form-control" :class="{invalid: !lastName.isValid}">
-      <label for="lastname">Lastname</label>
-      <input type="text" id="lastname" v-model.trim="lastName.val" @input="clearValid('lastName')"/>
+    <div class='form-control' :class='{invalid: !lastName.isValid}'>
+      <label for='lastname'>Lastname</label>
+      <input type='text' id='lastname' v-model.trim='lastName.val' @input="clearValid(lastName)" />
     </div>
-    <div class="form-control" :class="{invalid: !description.isValid}">
-      <label for="description">Description</label>
-      <textarea rows="5" id="description" v-model.trim="description.val" @input="clearValid('description')"></textarea>
+    <div class='form-control' :class='{invalid: !description.isValid}'>
+      <label for='description'>Description</label>
+      <textarea rows='5' id='description' v-model.trim='description.val' @input="clearValid(description)"></textarea>
     </div>
-    <div class="form-control" :class="{invalid: !rate.isValid}">
-      <label for="rate">Hourly Rate</label>
-      <input type="number" id="rate" v-model.number="rate.val" @input="clearValid('rate')"/>
+    <div class='form-control' :class='{invalid: !rate.isValid}'>
+      <label for='rate'>Hourly Rate</label>
+      <input type='number' id='rate' v-model.number='rate.val' @input="clearValid(rate)" />
     </div>
-    <div class="form-control" :class="{invalid: !areas.isValid}" @change="clearValid('areas')">
+    <div class='form-control' :class='{invalid: !areas.isValid}' @change="clearValid(areas)">
       <h3>Areas of Expertise</h3>
       <div>
-        <input type="checkbox" id="frontend" value="frontend" v-model="areas.val"/>
-        <labe for="fronted">Frontend Development</labe>
+        <input type='checkbox' id='frontend' value='frontend' v-model='areas.val' />
+        <label for='fronted'>Frontend Development</label>
       </div>
       <div>
-        <input type="checkbox" id="backend" value="backend" v-model="areas.val"/>
-        <labe for="backend">Backend Development</labe>
+        <input type='checkbox' id='backend' value='backend' v-model='areas.val' />
+        <label for='backend'>Backend Development</label>
       </div>
       <div>
-        <input type="checkbox" id="career" value="career" v-model="areas.val"/>
-        <labe for="fronted">Career Development</labe>
+        <input type='checkbox' id='career' value='career' v-model='areas.val' />
+        <label for='fronted'>Career Development</label>
       </div>
     </div>
-    <p v-if="!isValidForm" class="invalid">Please double check all the fields before submit</p>
+    <p v-if='!isValidForm' class='invalid'>Please double check all the fields before submit</p>
     <custom-button>Register</custom-button>
   </form>
 </template>
 
-<script>
-import CustomButton from "@/components/custom/CustomButton";
+<script setup lang='ts'>
+import CustomButton from '@/components/custom/CustomButton.vue'
+import { reactive, ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
-export default {
-  name: 'TutorForm',
-  components: {CustomButton},
-  data() {
-    return {
-      firstName: {
-        val: '',
-        isValid: true,
-      },
-      lastName: {
-        val: '',
-        isValid: true,
-      },
-      description: {
-        val: '',
-        isValid: true,
-      },
-      rate: {
-        val: null,
-        isValid: true,
-      },
-      areas: {
-        val: [],
-        isValid: true,
-      },
-      isValidForm: true
-    }
-  },
-  methods: {
-    submitForm() {
-      this.checkValidation()
-      if (!this.isValidForm) {
-        return
-      }
-      const newTutor = {
-        id: this.$store.getters.getUserId,
-        firstName: this.firstName.val,
-        lastName: this.lastName.val,
-        description: this.description.val,
-        hourlyRate: this.rate.val,
-        areas: this.areas.val
-      }
-      this.$store.dispatch({
-        type: "tutors/addTutorAction",
-        newTutor
-      })
-      this.$router.replace('/tutors')
-    },
-    checkValidation() {
-      if (this.firstName.val === '') {
-        this.isValidForm = false
-        this.firstName.isValid = false
-      }
-      if (this.lastName.val === '') {
-        this.isValidForm = false
-        this.lastName.isValid = false
-      }
-      if (this.description.val === '') {
-        this.isValidForm = false
-        this.description.isValid = false
-      }
-      if (this.rate.val <= 0) {
-        this.isValidForm = false
-        this.rate.isValid = false
-      }
-      if (this.areas.val.length === 0) {
-        this.isValidForm = false
-        this.areas.isValid = false
-      }
-    },
-    clearValid(property){
-      this[property].isValid = true
-      this.isValidForm = true
-    }
+const store = useStore()
+const router = useRouter()
+
+type TField<D> = {
+  val: D,
+  isValid: boolean
+}
+const firstName = reactive<TField<string>>({
+  val: '',
+  isValid: true
+})
+const lastName = reactive<TField<string>>({
+  val: '',
+  isValid: true
+})
+const description = reactive<TField<string>>({
+  val: '',
+  isValid: true
+})
+const rate = reactive<TField<number | null>>({
+  val: null,
+  isValid: true
+})
+const areas = reactive<TField<Array<string>>>({
+  val: [],
+  isValid: true
+})
+const isValidForm = ref(true)
+
+function submitForm() {
+  checkValidation()
+  if (!isValidForm.value) {
+    return
+  }
+  const newTutor = {
+    id: store.getters['auth/getUserId'],
+    firstName: firstName.val,
+    lastName: lastName.val,
+    description: description.val,
+    hourlyRate: rate.val,
+    areas: areas.val
+  }
+  store.dispatch({
+    type: 'tutors/addTutorAction',
+    newTutor
+  })
+  router.replace('/tutors')
+}
+
+function checkValidation() {
+  if (firstName.val === '') {
+    isValidForm.value = false
+    firstName.isValid = false
+  }
+  if (lastName.val === '') {
+    isValidForm.value = false
+    lastName.isValid = false
+  }
+  if (description.val === '') {
+    isValidForm.value = false
+    description.isValid = false
+  }
+  if (rate.val <= 0) {
+    isValidForm.value = false
+    rate.isValid = false
+  }
+  if (areas.val.length === 0) {
+    isValidForm.value = false
+    areas.isValid = false
   }
 }
+
+function clearValid(property) {
+  property.isValid = true
+  isValidForm.value = true
+}
+
 </script>
 
 <style scoped>

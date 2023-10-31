@@ -4,12 +4,10 @@
     <tutor-form></tutor-form>
   </custom-card>
 </template>
-<script>
 
-import TutorForm from "@/components/form/TutorForm";
-import CustomCard from "@/components/custom/CustomCard";
+<script setup lang='ts'>
+import TutorForm from '@/components/form/TutorForm.vue'
+import CustomCard from '@/components/custom/CustomCard.vue'
 
-export default {
-  components: {CustomCard, TutorForm}
-}
+
 </script>

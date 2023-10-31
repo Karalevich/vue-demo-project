@@ -1,27 +1,22 @@
 <template>
-  <span class="badge" :class="type">
+  <span class='badge' :class='type'>
     {{ text }}
   </span>
 </template>
 
-<script>
-export default {
-  name: 'CustomBadge',
-  props: {
-    type: {
-      type: String,
-    },
-    title: {
-      type: String,
-      required: true
-    }
-  },
-  computed: {
-    text() {
-      return this.title.toUpperCase()
-    }
-  }
+<script setup lang='ts'>
+import { computed } from 'vue'
+
+type TCustomBadgeProps = {
+  type: string,
+  title: string
 }
+const props = defineProps<TCustomBadgeProps>()
+
+const text = computed(() => {
+  return props.title.toUpperCase()
+})
+
 </script>
 
 <style scoped>

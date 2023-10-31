@@ -1,46 +1,34 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div class="form-control">
-      <label for="email">Your E-Mail</label>
-      <input type="email" id="email" v-model.trim="email" />
+  <form @submit.prevent='submitForm'>
+    <div class='form-control'>
+      <label for='email'>Your E-Mail</label>
+      <input type='email' id='email' v-model.trim='email' />
     </div>
-    <div class="form-control">
-      <label for="message">Message</label>
-      <textarea rows="5" id="message" v-model.trim="message"></textarea>
+    <div class='form-control'>
+      <label for='message'>Message</label>
+      <textarea rows='5' id='message' v-model.trim='message'></textarea>
     </div>
-    <p class="errors" v-if="!formIsValid">Please enter a valid email and non-empty message.</p>
-    <div class="actions">
-      <base-button>Send Message</base-button>
+    <p class='errors' v-if='!formIsValid'>Please enter a valid email and non-empty message.</p>
+    <div class='actions'>
+      <button>Send Message</button>
     </div>
   </form>
 </template>
 
-<script>
-export default {
-  name: 'ContactTutor',
-  data() {
-    return {
-      email: '',
-      message: '',
-      formIsValid: true,
-    };
-  },
-  methods: {
-    submitForm() {
-      this.formIsValid = true;
-      if (
-        this.email === '' ||
-        !this.email.includes('@') ||
-        this.message === ''
-      ) {
-        this.formIsValid = false;
-        return;
-      }
+<script setup lang='ts'>
+import { ref } from 'vue'
 
+const email = ref('')
+const message = ref('')
+const formIsValid = ref(true)
 
-    },
-  },
-};
+function submitForm() {
+  formIsValid.value = true
+  if (email.value === '' || !email.value.includes('@') || message.value === '') {
+    formIsValid.value = false
+    return
+  }
+}
 </script>
 
 <style scoped>

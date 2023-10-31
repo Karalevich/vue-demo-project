@@ -7,27 +7,15 @@
   </router-link>
 </template>
 
-<script>
-export default {
-  name: 'CustomButton',
-  props: {
-    link: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    to: {
-      type: String,
-      required: false,
-      default: '/'
-    },
-    mode: {
-      type: String,
-      required: false,
-      default: null
-    }
-  }
+<script setup lang='ts'>
+type TCustomButtonProps = {
+  link?: boolean,
+  to?: string,
+  mode?: string
 }
+
+defineProps<TCustomButtonProps>()
+
 </script>
 
 <style scoped>

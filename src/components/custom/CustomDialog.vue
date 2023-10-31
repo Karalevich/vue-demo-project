@@ -1,19 +1,19 @@
 <template>
-  <teleport to="body">
-    <div v-if="show" @click="tryClose" class="backdrop"></div>
-    <transition name="dialog">
-      <dialog open v-if="show">
+  <teleport to='body'>
+    <div v-if='show' @click='tryClose' class='backdrop'></div>
+    <transition name='dialog'>
+      <dialog open v-if='show'>
         <header>
-          <slot name="header">
+          <slot name='header'>
             <h2>{{ title }}</h2>
           </slot>
         </header>
         <section>
           <slot></slot>
         </section>
-        <menu v-if="!fixed">
-          <slot name="actions">
-            <custom-button @click="tryClose">Close</custom-button>
+        <menu v-if='!fixed'>
+          <slot name='actions'>
+            <custom-button @click='tryClose'>Close</custom-button>
           </slot>
         </menu>
       </dialog>
@@ -21,37 +21,23 @@
   </teleport>
 </template>
 
-<script>
-import CustomButton from "@/components/custom/CustomButton";
+<script setup lang='ts'>
+import CustomButton from '@/components/custom/CustomButton.vue'
 
-export default {
-  name: 'CustomDialog',
-  components: {CustomButton},
-  props: {
-    show: {
-      type: Boolean,
-      required: true,
-    },
-    title: {
-      type: String,
-      required: false,
-    },
-    fixed: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  emits: ['close'],
-  methods: {
-    tryClose() {
-      if (this.fixed) {
-        return;
-      }
-      this.$emit('close');
-    },
-  },
-};
+type TCustomDialogProps = {
+  show: boolean,
+  title?: string,
+  fixed?: boolean
+}
+const props = defineProps<TCustomDialogProps>()
+defineEmits(['close'])
+
+function tryClose() {
+  if (props.fixed) {
+    return
+  }
+  this.$emit('close')
+}
 </script>
 
 <style scoped>

@@ -3,55 +3,45 @@
     <h3>{{ fullName }}</h3>
     <h4>${{ hourlyRate }}/hour</h4>
     <div>
-      <custom-badge v-for="area in areas" :key="area" class="area" :type="area" :title="area" />
+      <custom-badge v-for='area in areas' :key='area' class='area' :type='area' :title='area' />
     </div>
-    <div class="actions">
-      <custom-button mode="outline" link :to="getTutorContactsLink">Contact</custom-button>
-      <custom-button link :to="getTutorDetailsLink">View Details</custom-button>
+    <div class='actions'>
+      <custom-button mode='outline' link :to='getTutorContactsLink'>Contact</custom-button>
+      <custom-button link :to='getTutorDetailsLink'>View Details</custom-button>
     </div>
   </li>
 </template>
 
-<script>
-import CustomButton from "@/components/custom/CustomButton";
-import CustomBadge from "@/components/custom/CustomBadge";
-export default {
-  name: 'TutorItem',
-  components: {CustomBadge, CustomButton},
-  props: {
-    firstName: {
-      type: String,
-      required: true
-    },
-    lastName: {
-      type: String,
-      required: true
-    },
-    areas: {
-      type: Array,
-      required: true,
-    },
-    hourlyRate: {
-      type: Number,
-      required: true
-    },
-    id: {
-      type: String,
-      required: true
-    },
-  },
-  computed: {
-    fullName() {
-      return this.firstName + ' ' + this.lastName
-    },
-    getTutorDetailsLink() {
-      return this.$route.path + '/' + this.id
-    },
-    getTutorContactsLink() {
-      return this.$route.path + '/' + this.id + '/contact'
-    }
-  }
+<script setup lang='ts'>
+import CustomButton from '@/components/custom/CustomButton.vue'
+import CustomBadge from '@/components/custom/CustomBadge.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+export type TTutorItemProps = {
+  firstName: string
+  lastName: string
+  areas: Array<string>
+  hourlyRate: number
+  id: string
 }
+
+const props = defineProps<TTutorItemProps>()
+
+const route = useRoute()
+
+
+const fullName = computed(() => {
+  return props.firstName + ' ' + props.lastName
+})
+const getTutorDetailsLink = computed(() => {
+  return route.path + '/' + props.id
+})
+const getTutorContactsLink = computed(() => {
+  return route.path + '/' + props.id + '/contact'
+})
+
+
 </script>
 
 <style scoped>

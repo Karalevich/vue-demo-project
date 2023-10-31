@@ -2,42 +2,41 @@
   <header>
     <nav>
       <h1>
-        <router-link to="/">Find a Tutor</router-link>
+        <router-link to='/'>Find a Tutor</router-link>
       </h1>
       <ul>
         <li>
-          <router-link to="/tutors">All tutors</router-link>
+          <router-link to='/tutors'>All tutors</router-link>
         </li>
         <li>
-          <router-link to="/requests">Requests</router-link>
+          <router-link to='/requests'>Requests</router-link>
         </li>
-        <li v-if="!isSignIn">
-          <router-link to="/auth">Login</router-link>
+        <li v-if='!isSignIn'>
+          <router-link to='/auth'>Login</router-link>
         </li>
-        <li v-if="isSignIn">
-          <custom-button @click="logout">Logout</custom-button>
+        <li v-if='isSignIn'>
+          <custom-button @click='logout'>Logout</custom-button>
         </li>
       </ul>
     </nav>
   </header>
 </template>
 
-<script>
-import CustomButton from "@/components/custom/CustomButton";
-export default {
-  name: 'CustomHeader',
-  components: {CustomButton},
-  methods: {
-    logout() {
-      this.$store.dispatch('auth/logOut')
-    }
-  },
-  computed: {
-    isSignIn(){
-      return this.$store.getters['auth/isSignIn']
-    }
-  }
+<script setup lang='ts'>
+import CustomButton from '@/components/custom/CustomButton.vue'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+
+const store = useStore()
+
+function logout() {
+  store.dispatch('auth/logOut')
 }
+
+const isSignIn = computed(() => {
+  return store.getters['auth/isSignIn']
+})
+
 </script>
 
 <style scoped>

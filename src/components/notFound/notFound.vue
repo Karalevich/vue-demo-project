@@ -4,16 +4,12 @@
       <h2>Page not found</h2>
       <p>
         This page not be found - maybe check out all our
-        <router-link to="/tutors">tutors</router-link>
+        <router-link to='/tutors'>tutors</router-link>
       </p>
     </custom-card>
   </section>
 </template>
-<script>
-import CustomCard from "@/components/custom/CustomCard";
+<script setup lang='ts'>
+import CustomCard from '@/components/custom/CustomCard.vue'
 
-export default {
-  name:'NotFound',
-  components: {CustomCard}
-}
 </script>

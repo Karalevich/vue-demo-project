@@ -1,30 +1,25 @@
 <template>
   <li>
     <div>
-      <a :href="emailLink">{{ email }}</a>
+      <a :href='emailLink'>{{ email }}</a>
     </div>
     <p> {{ message }}</p>
   </li>
 </template>
 
-<script>
-export default {
-  name: 'RequestItem',
-  props: {
-    email: {
-      type: String,
-      required: true
-    },
-    message: {
-      type: String
-    }
-  },
-  computed: {
-    emailLink() {
-      return 'mailto' + this.email
-    }
-  }
+<script setup lang='ts'>
+import { computed } from 'vue'
+
+type TRequestItemProps = {
+  email: string
+  message: string
 }
+const props = defineProps<TRequestItemProps>()
+
+
+const emailLink = computed(() => {
+  return 'mailto' + props.email
+})
 </script>
 
 <style scoped>

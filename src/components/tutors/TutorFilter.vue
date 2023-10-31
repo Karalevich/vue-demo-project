@@ -1,47 +1,46 @@
 <template>
   <custom-card>
     <h2>Find Your Tutor</h2>
-    <span class="filter-option">
-      <input type="checkbox" id="frontend" :checked="filter.frontend" @change="updateFilter"/>
-      <label for="frontend">Frontend</label>
+    <span class='filter-option'>
+      <input type='checkbox' id='frontend' :checked='filter.frontend' @change='updateFilter' />
+      <label for='frontend'>Frontend</label>
     </span>
-    <span class="filter-option">
-      <input type="checkbox" id="backend" :checked="filter.backend" @change="updateFilter"/>
-      <label for="backend">Backend</label>
+    <span class='filter-option'>
+      <input type='checkbox' id='backend' :checked='filter.backend' @change='updateFilter' />
+      <label for='backend'>Backend</label>
     </span>
-    <span class="filter-option">
-      <input type="checkbox" id="career" :checked="filter.career" @change="updateFilter"/>
-      <label for="career">Career</label>
+    <span class='filter-option'>
+      <input type='checkbox' id='career' :checked='filter.career' @change='updateFilter' />
+      <label for='career'>Career</label>
     </span>
   </custom-card>
 </template>
 
 
-<script>
-import CustomCard from "@/components/custom/CustomCard";
+<script setup lang='ts'>
+import CustomCard from '@/components/custom/CustomCard.vue'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 
-export default {
-  name: 'TutorFilter',
-  components: {CustomCard},
-  methods: {
-    updateFilter(event) {
-      const checkboxId = event.target.id
-      const checkboxStatus = event.target.checked
+const store = useStore()
 
-      this.$store.commit('tutors/updateFilter',
-          {
-            filterId: checkboxId,
-            filterStatus: checkboxStatus
-          })
-      this.$store.dispatch('tutors/updateTutorsAction')
-    },
-  },
-  computed: {
-    filter() {
-      return this.$store.getters['tutors/filter']
-    }
-  }
+
+function updateFilter(event: InputEvent) {
+  const { id } = event.target
+  const { checked } = event.target
+
+  store.commit('tutors/updateFilter',
+    {
+      filterId: id,
+      filterStatus: checked
+    })
+  store.dispatch('tutors/updateTutorsAction')
 }
+
+
+const filter = computed(() => {
+  return store.getters['tutors/filter']
+})
 </script>
 
 <style scoped>

@@ -1,58 +1,52 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div class="form-control">
-      <label for="email">Your E-Mail</label>
-      <input type="email" id="email" v-model.trim="email"/>
+  <form @submit.prevent='submitForm'>
+    <div class='form-control'>
+      <label for='email'>Your E-Mail</label>
+      <input type='email' id='email' v-model.trim='email' />
     </div>
-    <div class="form-control">
-      <label for="message">Message</label>
-      <textarea rows="5" id="message" v-model.trim="message"></textarea>
+    <div class='form-control'>
+      <label for='message'>Message</label>
+      <textarea rows='5' id='message' v-model.trim='message'></textarea>
     </div>
-    <p class="errors" v-if="!formIsValid">Please enter a valid email and non-empty message.</p>
-    <div class="actions">
+    <p class='errors' v-if='!formIsValid'>Please enter a valid email and non-empty message.</p>
+    <div class='actions'>
       <custom-button>Send Message</custom-button>
     </div>
   </form>
 </template>
 
-<script>
-import CustomButton from "@/components/custom/CustomButton";
+<script setup lang='ts'>
+import CustomButton from '@/components/custom/CustomButton.vue'
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 
-export default {
-  name: 'TutorContact',
-  components: {CustomButton},
-  data() {
-    return {
-      email: '',
-      message: '',
-      formIsValid: true,
-    };
-  },
-  methods: {
-    submitForm() {
-      this.formIsValid = true;
-      if (
-          this.email === '' ||
-          !this.email.includes('@') ||
-          this.message === ''
-      ) {
-        this.formIsValid = false;
-        return;
-      }
+const store = useStore()
 
-      const newRequest = {
-        email: this.email,
-        message: this.message,
-      }
-      this.$store.dispatch({
-            type: "requests/addRequestsAction",
-            newRequest
-          }
-      )
+const email = ref('')
+const message = ref('')
+const formIsValid = ref(true)
 
-    },
-  },
-};
+
+function submitForm() {
+  formIsValid.value = true
+  if (
+    email.value === '' ||
+    !email.value.includes('@') ||
+    message.value === ''
+  ) {
+    formIsValid.value = false
+    return
+  }
+
+  const newRequest = {
+    email: email,
+    message: message
+  }
+  store.dispatch({
+    type: 'requests/addRequestsAction',
+    newRequest
+  })
+}
 </script>
 
 <style scoped>
